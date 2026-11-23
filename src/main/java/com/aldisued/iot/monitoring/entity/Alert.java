@@ -1,0 +1,43 @@
+package com.aldisued.iot.monitoring.entity;
+
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.Instant;
+
+@Table(name = "alerts")
+@Entity
+@Setter
+@Getter
+@NoArgsConstructor
+public class Alert {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Setter(AccessLevel.NONE)
+    private Long id;
+
+    @Column(nullable = false)
+    private String message;
+
+    @Column(nullable = false)
+    private Instant timestamp;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sensor_id")
+    private Sensor sensor;
+
+    public Alert(
+            String message,
+            Instant timestamp,
+            Sensor sensor
+    ) {
+        this.message = message;
+        this.timestamp = timestamp;
+        this.sensor = sensor;
+    }
+
+}
